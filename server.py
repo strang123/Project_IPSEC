@@ -36,4 +36,4 @@ def listen_to_socket_and_receive_info(sock):
 
 if __name__ == "__main__":
         main()
-~                                 
+                                 
