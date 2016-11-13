@@ -6,12 +6,7 @@ import socket, sys, os, subprocess
 
 
 def main():
-        #received_ip_array = setup_a_socket_to_listen_to()
-	received_ip_array = []
-	received_ip_array.append("1.1.1.1")
-	received_ip_array.append("2.1.1.1")
-	received_ip_array.append("3.1.1.1")
-	received_ip_array.append("4.1.1.1")
+        received_ip_array = setup_a_socket_to_listen_to()
 	create_config_files_left(received_ip_array)
 
 def create_config_files_left(received_ip_array):
@@ -56,8 +51,9 @@ def setup_a_socket_to_listen_to():
         server_address = ('10.10.5.1', 10000)
         sock.bind(server_address)
         sock.listen(1)
-        listen_to_socket_and_receive_info(sock)
-
+        ip_array = listen_to_socket_and_receive_info(sock)
+	return ip_array
+	
 def listen_to_socket_and_receive_info(sock):
 	ip_array = []
         while True:
