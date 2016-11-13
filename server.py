@@ -2,8 +2,8 @@
 import socket, sys, os, subprocess
 #
 
-path_to_confs='/users/faezehka/strong_swan_install/conf'
-
+PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf'
+SERVER_ADDRESS='10.10.5.1'
 
 def main():
         received_ip_array = setup_a_socket_to_listen_to()
@@ -24,7 +24,7 @@ def create_config_files_left(received_ip_array):
 
 	secret_file = open('ipsec.secrets','w')
 	secret_file.write(received_ip_array[1] + ' ' + received_ip_array[2] + ' : PSK \"shared key\"\n')	
-	os.system('mv ipsec.conf ipsec.secrets ' + path_to_confs)	
+	os.system('mv ipsec.conf ipsec.secrets ' + PATH_TO_CONFS)	
 
 
 def create_config_files_right(received_ip_array):
@@ -42,11 +42,11 @@ def create_config_files_right(received_ip_array):
 
 	secret_file = open('ipsec.secrets','w')
 	secret_file.write(received_ip_array[2] + ' ' + received_ip_array[1] + ' : PSK \"shared key\"\n')	
-	os.system('mv ipsec.conf ipsec.secrets ' + path_to_confs)	
+	os.system('mv ipsec.conf ipsec.secrets ' + PATH_TO_CONFS)	
 
 def setup_a_socket_to_listen_to():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_address = ('10.10.5.1', 10000)
+        server_address = (SERVER_ADDRESS, 10000)
         sock.bind(server_address)
         sock.listen(1)
         ip_array = listen_to_socket_and_receive_info(sock)
