@@ -10,7 +10,7 @@ def main():
 
 def setup_a_socket_to_listen_to():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_address = ('localhost', 10000)
+        server_address = ('10.10.5.2', 10000)
         sock.bind(server_address)
         sock.listen(1)
         listen_to_socket_and_receive_info(sock)
