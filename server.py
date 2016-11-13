@@ -6,11 +6,17 @@ import socket, sys, os, subprocess
 
 
 def main():
-        received_ip_array = setup_a_socket_to_listen_to()
-	create_config_files(received_ip_array)
+        #received_ip_array = setup_a_socket_to_listen_to()
+	#create_config_files(received_ip_array)
+	create_config_files()
 
-def create_config_files(received_ip_array)
+#def create_config_files(received_ip_array)
+def create_config_files():
+	config_file = open('ipsec.conf','w')
 	
+	config_file.write('hellO')	
+	config_file.write('hellO')	
+	config_file.write('hellO')	
 
 def setup_a_socket_to_listen_to():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
