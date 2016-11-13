@@ -6,12 +6,10 @@ import socket, sys, os, subprocess
 
 
 def main():
-        arr = setup_a_socket_to_listen_to()
-	for i in arr:
-		print arr[i]
-	#create_config_files()
+        received_ip_array = setup_a_socket_to_listen_to()
+	create_config_files(received_ip_array)
 
-#def create_config_files()
+def create_config_files(received_ip_array)
 	
 
 def setup_a_socket_to_listen_to():
@@ -27,10 +25,9 @@ def listen_to_socket_and_receive_info(sock):
                 connection, client_address = sock.accept()
                 try:
                         while True:
-                                data = connection.recv(16)
+                                data = connection.recv(48)
                                 if data:
-                                        #connection.sendall(data)
-					ip_array.append(data)
+					ip_array = data.split()
 					if len(ip_array) == 4:
 						return ip_array
                                 else:   
