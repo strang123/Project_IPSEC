@@ -2,7 +2,7 @@
 import socket, sys, os, subprocess
 #
 
-
+path_to_confs='/users/faezehka/strong_swan_install/conf'
 
 
 def main():
@@ -11,7 +11,6 @@ def main():
 
 def create_config_files_left(received_ip_array):
 	config_file = open('ipsec.conf','w')
-
 	config_file.write('conn test\n')	
 	config_file.write('\tleft=' + received_ip_array[1] + '\n')	
 	config_file.write('\tright=' + received_ip_array[2] + '\n')	
@@ -24,13 +23,12 @@ def create_config_files_left(received_ip_array):
 	config_file.write('\ttype=tunnel')	
 
 	secret_file = open('ipsec.secrets','w')
-	
 	secret_file.write(received_ip_array[1] + ' ' + received_ip_array[2] + ' : PSK \"shared key\"\n')	
+	os.system('mv ipsec.conf ipsec.secrets ' + path_to_confs)	
 
 
 def create_config_files_right(received_ip_array):
 	config_file = open('ipsec.conf','w')
-
 	config_file.write('conn test\n')	
 	config_file.write('\tleft=' + received_ip_array[2] + '\n')	
 	config_file.write('\tright=' + received_ip_array[1] + '\n')	
@@ -43,8 +41,8 @@ def create_config_files_right(received_ip_array):
 	config_file.write('\ttype=tunnel')	
 
 	secret_file = open('ipsec.secrets','w')
-	
 	secret_file.write(received_ip_array[2] + ' ' + received_ip_array[1] + ' : PSK \"shared key\"\n')	
+	os.system('mv ipsec.conf ipsec.secrets ' + path_to_confs)	
 
 def setup_a_socket_to_listen_to():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
