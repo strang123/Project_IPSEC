@@ -5,9 +5,22 @@ import socket, sys, os, subprocess
 PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf'
 SERVER_ADDRESS='10.10.5.2'
 
-def main():
-        received_ip_array = setup_a_socket_to_listen_to()
-	create_config_files_right(received_ip_array)
+def main(argv):
+        #received_ip_array = setup_a_socket_to_listen_to()
+	received_ip_array = "hello"
+	create_config_files(argv, received_ip_array)
+	start_ipsec()
+
+def start_ipsec():
+	os.system("ipsec start")
+
+def create_config_files(argv, received_ip_array):
+	if argv[0] == 'right':
+		create_config_files_right(received_ip_array)
+	elif argv[0] == 'left':
+		create_config_files_left(received_ip_array)
+	else: 
+		print("You have not correctly specified \"right\" or \"left\"")
 
 def create_config_files_left(received_ip_array):
 	config_file = open('ipsec.conf','w')
@@ -74,5 +87,5 @@ def listen_to_socket_and_receive_info(sock):
 
 
 if __name__ == "__main__":
-        main()
+        main(sys.argv[1:])
                                  
