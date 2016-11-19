@@ -3,14 +3,20 @@ import socket, sys, os, subprocess
 #
 
 PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf'
-SERVER_ADDRESS='10.10.5.2'
+SERVER_ADDRESS='10.10.5.1'
 
 def main(argv):
-        #received_ip_array = setup_a_socket_to_listen_to()
-	received_ip_array = "hello"
-	create_config_files(argv, received_ip_array)
-	start_ipsec()
+	while True:
+		check_args(argv)
+        	received_ip_array = setup_a_socket_to_listen_to()
+		create_config_files(argv, received_ip_array)
+		start_ipsec()
 
+def check_args(argv):
+	if len(argv) == 0:
+		print("Error! You need to specify whether this server is to run as the left or right server.  You can do this by providing a \"left\" or \"right\" argument")
+		exit(2)
+		
 def start_ipsec():
 	os.system("ipsec start")
 
@@ -21,6 +27,7 @@ def create_config_files(argv, received_ip_array):
 		create_config_files_left(received_ip_array)
 	else: 
 		print("You have not correctly specified \"right\" or \"left\"")
+		sys.exit(1)
 
 def create_config_files_left(received_ip_array):
 	config_file = open('ipsec.conf','w')
