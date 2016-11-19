@@ -3,11 +3,11 @@ import socket, sys, os, subprocess
 #
 
 PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf'
-SERVER_ADDRESS='10.10.5.1'
+SERVER_ADDRESS='10.10.5.2'
 
 def main():
         received_ip_array = setup_a_socket_to_listen_to()
-	create_config_files_left(received_ip_array)
+	create_config_files_right(received_ip_array)
 
 def create_config_files_left(received_ip_array):
 	config_file = open('ipsec.conf','w')
