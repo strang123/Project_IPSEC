@@ -5,7 +5,7 @@ import socket, sys, getopt
 
 def main(argv):
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	server_address = ('10.10.5.1',10000)
+	server_address = ('10.10.5.2',10000)
 	sock.connect(server_address)
 	try:
 		message1 = argv[0]
