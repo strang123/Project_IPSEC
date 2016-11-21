@@ -3,7 +3,7 @@ import socket, sys, os, subprocess
 #
 
 PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf'
-SERVER_ADDRESS='10.10.5.1'
+SERVER_ADDRESS='10.10.5.2'
 
 def main(argv):
 	while True:
