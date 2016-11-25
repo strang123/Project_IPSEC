@@ -13,8 +13,8 @@ def main(argv):
 		start_ipsec()
 
 def check_args(argv):
-	if len(argv) == 0:
-		print("Error! You need to specify whether this server is to run as the left or right server.  You can do this by providing a \"left\" or \"right\" argument")
+	if len(argv) != 1: 
+		print("ERROR: You need to specify whether this server is to run as the left or right server.  You can do this by providing a \"left\" or \"right\" argument")
 		exit(2)
 		
 def start_ipsec():
@@ -65,12 +65,16 @@ def create_config_files_right(received_ip_array):
 	os.system('mv ipsec.conf ipsec.secrets ' + PATH_TO_CONFS)	
 
 def setup_a_socket_to_listen_to():
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_address = (SERVER_ADDRESS, 10000)
-        sock.bind(server_address)
-        sock.listen(1)
-        ip_array = listen_to_socket_and_receive_info(sock)
-	return ip_array
+	try:
+		sys.tracebacklimit = 0
+        	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        	server_address = (SERVER_ADDRESS, 10000)
+        	sock.bind(server_address)
+        	sock.listen(1)
+        	ip_array = listen_to_socket_and_receive_info(sock)
+		return ip_array
+	except:
+		print("ERROR: Check your IP of SERVER_ADDRESS")
 	
 def listen_to_socket_and_receive_info(sock):
 	ip_array = []
