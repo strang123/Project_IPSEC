@@ -2,7 +2,7 @@
 import socket, sys, os, subprocess
 #
 
-PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf'
+PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf' #ensure this path points to the directory of ipsec.conf and ipsec.secrets resides.
 SERVER_ADDRESS='10.10.50.1'
 
 def main(argv):
