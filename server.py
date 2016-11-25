@@ -3,14 +3,18 @@ import socket, sys, os, subprocess
 #
 
 PATH_TO_CONFS='/users/faezehka/strong_swan_install/conf' #ensure this path points to the directory of ipsec.conf and ipsec.secrets resides.
-SERVER_ADDRESS='10.10.50.1'
+SERVER_ADDRESS='10.10.5.1'
 
 def main(argv):
+	stop_instances_of_ipsec()
 	while True:
 		check_args(argv)
         	received_ip_array = setup_a_socket_to_listen_to()
 		create_config_files(argv, received_ip_array)
 		start_ipsec()
+
+def stop_instances_of_ipsec():
+	os.system("ipsec stop")
 
 def check_args(argv):
 	if len(argv) != 1: 
@@ -66,7 +70,7 @@ def create_config_files_right(received_ip_array):
 
 def setup_a_socket_to_listen_to():
 	try:
-		sys.tracebacklimit = 0
+		sys.tracebacklimit = 0 #used to mask any issues with creating the socket. 
         	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         	server_address = (SERVER_ADDRESS, 10000)
         	sock.bind(server_address)
