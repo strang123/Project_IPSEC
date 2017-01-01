@@ -15,12 +15,12 @@ def main(argv):
 	message= AddressA+" "+AddressB+" "+gateway1+" "+gateway2
 	
 	sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	gateway1_address = (gateway1, 10000)
+	gateway1_address = (GW1_ADDRESS, 10000)
 	sock1.connect(gateway1_address)
 	
 	
 	sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	gateway2_address = (gateway2, 10000)
+	gateway2_address = (GW2_ADDRESS, 10000)
 	sock2.connect(gateway2_address)
 	
 	try:
