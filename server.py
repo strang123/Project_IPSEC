@@ -4,6 +4,7 @@ import socket, sys, os, subprocess
 
 PATH_TO_CONFS='/root/programs/ezipsec/strongswan/conf_files/'  #ensure this path points to the directory of ipsec.conf and ipsec.secrets resides.
 SERVER_ADDRESS='10.2.63.86'
+counter=0
 
 def main(argv):
 	stop_instances_of_ipsec()
@@ -15,6 +16,7 @@ def main(argv):
 
 def stop_instances_of_ipsec():
 	os.system("ipsec stop")
+	os.system("rm -f " + PATH_TO_CONFS + "ipsec.*")
 
 def check_args(argv):
 	if len(argv) != 1: 
@@ -34,8 +36,9 @@ def create_config_files(argv, received_ip_array):
 		sys.exit(1)
 
 def create_config_files_left(received_ip_array):
+	global counter 
 	config_file = open(PATH_TO_CONFS + 'ipsec.conf','a')
-	config_file.write('conn test\n')	
+	config_file.write('conn test' + str(counter) + '\n')	
 	config_file.write('\tleft=' + received_ip_array[1] + '\n')	
 	config_file.write('\tright=' + received_ip_array[2] + '\n')	
 	config_file.write('\tleftsubnet=' + received_ip_array[0] + '\n')	
@@ -45,14 +48,16 @@ def create_config_files_left(received_ip_array):
 	config_file.write('\tauto=start\n')	
 	config_file.write('\tauthby=secret\n')	
 	config_file.write('\ttype=tunnel')	
+	config_file.write('\n\n')
 
 	secret_file = open(PATH_TO_CONFS + 'ipsec.secrets','a')
 	secret_file.write(received_ip_array[1] + ' ' + received_ip_array[2] + ' : PSK \"shared key\"\n')	
-
+	counter = counter+1
 
 def create_config_files_right(received_ip_array):
+	global counter 
 	config_file = open(PATH_TO_CONFS + 'ipsec.conf','a')
-	config_file.write('conn test\n')	
+	config_file.write('conn test' + str(counter) + '\n')	
 	config_file.write('\tleft=' + received_ip_array[2] + '\n')	
 	config_file.write('\tright=' + received_ip_array[1] + '\n')	
 	config_file.write('\tleftsubnet=' + received_ip_array[3] + '\n')	
@@ -62,9 +67,11 @@ def create_config_files_right(received_ip_array):
 	config_file.write('\tauto=start\n')	
 	config_file.write('\tauthby=secret\n')	
 	config_file.write('\ttype=tunnel')	
+	config_file.write('\n\n')
 
 	secret_file = open(PATH_TO_CONFS + 'ipsec.secrets','a')
 	secret_file.write(received_ip_array[2] + ' ' + received_ip_array[1] + ' : PSK \"shared key\"\n')	
+	counter = counter+1
 
 def setup_a_socket_to_listen_to():
 	try:
