@@ -1,23 +1,33 @@
 #!/usr/bin/python
-import socket, sys, os, subprocess
+import socket, sys, os, subprocess, signal
 #
-##########################################################
-#Please edit these to your particular environment
-##########################################################
+
 PATH_TO_CONFS='/root/programs/ezipsec/strongswan/conf_files/'  #ensure this path points to the directory of ipsec.conf and ipsec.secrets resides.
 SERVER_ADDRESS='10.2.63.86'
-##########################################################
-
-
 counter=0
 
 def main(argv):
 	stop_instances_of_ipsec()
 	while True:
 		check_args(argv)
+		get_signals()
         	received_ip_array = setup_a_socket_to_listen_to()
 		create_config_files(argv, received_ip_array)
 		start_ipsec()
+
+def get_signals():
+	original_sigint = signal.getsignal(signal.SIGINT)
+	signal.signal(signal.SIGINT, exit_gracefully)
+	
+def exit_gracefully(signum, frame):
+	signal.signal(signal.SIGINT, original_sigint)
+	try:
+		if raw_input("\nReally quit? (y/n)\n").lower().startswith('y'):
+			sys.exit(1)
+	except KeyboardInterrupt:
+		print("quitting\n")
+		sys.exit(1)
+	signal.signal(signal.SIGINT,exit_gracefully)
 
 def stop_instances_of_ipsec():
 	os.system("ipsec stop")
@@ -43,6 +53,7 @@ def create_config_files(argv, received_ip_array):
 def create_config_files_left(received_ip_array):
 	global counter 
 	config_file = open(PATH_TO_CONFS + 'ipsec.conf','a')
+	print("wtf\n")
 	config_file.write('conn test' + str(counter) + '\n')	
 	config_file.write('\tleft=' + received_ip_array[1] + '\n')	
 	config_file.write('\tright=' + received_ip_array[2] + '\n')	
