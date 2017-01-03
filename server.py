@@ -12,12 +12,23 @@ SERVER_ADDRESS='10.2.63.86'
 counter=0
 
 def main(argv):
+	verify_variable_environment()
 	stop_instances_of_ipsec()
 	while True:
 		check_args(argv)
         	received_ip_array = setup_a_socket_to_listen_to()
 		create_config_files(argv, received_ip_array)
 		start_ipsec()
+
+def verify_variable_environment():
+	if raw_input("Ensure you have properly edited the variables within this script.  Proceed?[y | n]").lower().startswith('n'):
+		print("Leaaving...")
+		sys.exit(1)
+
+#    	Vexcept KeyboardInterrupt:
+#        print("Ok ok, quitting")
+#        sys.exit(1)
+#
 
 def stop_instances_of_ipsec():
 	os.system("ipsec stop")
