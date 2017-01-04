@@ -6,6 +6,7 @@ import socket, sys, os, subprocess
 ##########################################################
 PATH_TO_CONFS='/root/programs/ezipsec/strongswan/conf_files/'  #ensure this path points to the directory of ipsec.conf and ipsec.secrets resides.
 SERVER_ADDRESS='10.2.63.86'
+CIPHER='aes256'
 ##########################################################
 
 
@@ -63,7 +64,8 @@ def create_config_files_left(received_ip_array):
 	config_file.write('\trightfirewall=no\n')	
 	config_file.write('\tauto=start\n')	
 	config_file.write('\tauthby=secret\n')	
-	config_file.write('\ttype=tunnel')	
+	config_file.write('\ttype=tunnel\n')	
+	config_file.write('\tcipher=' + CIPHER)	
 	config_file.write('\n\n')
 
 	secret_file = open(PATH_TO_CONFS + 'ipsec.secrets','a')
@@ -82,7 +84,8 @@ def create_config_files_right(received_ip_array):
 	config_file.write('\trightfirewall=no\n')	
 	config_file.write('\tauto=start\n')	
 	config_file.write('\tauthby=secret\n')	
-	config_file.write('\ttype=tunnel')	
+	config_file.write('\ttype=tunnel\n')	
+	config_file.write('\tcipher=' + CIPHER)	
 	config_file.write('\n\n')
 
 	secret_file = open(PATH_TO_CONFS + 'ipsec.secrets','a')
